@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class BuildPizza : MonoBehaviour
+public class BuildPizza2 : MonoBehaviour
 {
     public GameObject pizzaSlice;
     public int numOfPoints = 18;
@@ -38,7 +38,7 @@ public class BuildPizza : MonoBehaviour
         List<Vector3> vertexList = new List<Vector3>();
         List<int> triangleList = new List<int>();
         Quaternion quaternion = Quaternion.Euler(0.0f, 0.0f, angleStep);
-        
+
         // Make first triangle.
         vertexList.Add(new Vector3(centerX, centerY, centerZ));  // 1. Circle center.
         vertexList.Add(new Vector3(0.0f, radius, 0.0f));         // 2. First vertex on circle outline
@@ -49,7 +49,7 @@ public class BuildPizza : MonoBehaviour
         triangleList.Add(0);
         for (int i = 0; i < numOfPoints - 1; i++)
         {
-            triangleList.Add(vertexList.Count);                      
+            triangleList.Add(vertexList.Count);
             triangleList.Add(vertexList.Count - 1);
             triangleList.Add(0);                            // Index of circle center.
 
@@ -128,34 +128,48 @@ public class BuildPizza : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 1000.0f))
-            {
-                if (hit.transform.tag == "Pizza")
-                {
-                    Debug.Log(hit.triangleIndex);
-                    deleteTri(hit.triangleIndex, hit.transform.gameObject);
-                }
-            }
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    RaycastHit hit;
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    if (Physics.Raycast(ray, out hit, 1000.0f))
+        //    {
+        //        if (hit.transform.tag == "Pizza")
+        //        {
+        //            Debug.Log(hit.triangleIndex);
+        //            deleteTri(hit.triangleIndex, hit.transform.gameObject);
+        //        }
+        //    }
+        //}
 
-        // Touch
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            Touch myTouch = Input.GetTouch(0);
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(myTouch.position);
-            if (Physics.Raycast(ray, out hit, 1000.0f))
-            {
-                if (hit.transform.tag == "Pizza")
-                {
-                    Debug.Log(hit.triangleIndex);
-                    deleteTri(hit.triangleIndex, hit.transform.gameObject);
-                }
-            }
-        }
+        //// Touch
+        //if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        //{
+        //    Touch myTouch = Input.GetTouch(0);
+        //    RaycastHit hit;
+        //    Ray ray = Camera.main.ScreenPointToRay(myTouch.position);
+        //    if (Physics.Raycast(ray, out hit, 1000.0f))
+        //    {
+        //        if (hit.transform.tag == "Pizza")
+        //        {
+        //            Debug.Log(hit.triangleIndex);
+        //            deleteTri(hit.triangleIndex, hit.transform.gameObject);
+        //        }
+        //    }
+        //}
+        //Debug.Log(Input.GetTouch(0));
+        //if (Input.GetTouch(0))
+        //{
+        //    RaycastHit hit;
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
+        //    if (Physics.Raycast(ray, out hit, 1000.0f))
+        //    {
+        //        if (hit.transform.tag == "Pizza")
+        //        {
+        //            Debug.Log(hit.triangleIndex);
+        //            deleteTri(hit.triangleIndex, hit.transform.gameObject);
+        //        }
+        //    }
+        //}
     }
 }
