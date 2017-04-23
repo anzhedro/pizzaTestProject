@@ -6,6 +6,6 @@ public class CutPizzaByAngle : MonoBehaviour {
 
 	public void doSomething()
     {
-        Debug.Log("WOW");
+        Debug.Log("Cut the pizza");
     }
 }
