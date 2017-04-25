@@ -9,7 +9,7 @@ public class DragObject : MonoBehaviour
     private Vector3 offset;
     float radius = 1.1f;
     private float dist;
-    private bool dragging = false;
+    public static bool dragging = false;
     // private Vector3 offset;
     private Transform toDrag;
     Vector3 v3;
@@ -35,15 +35,15 @@ public class DragObject : MonoBehaviour
             
             v3.Normalize();
             Vector3 rad = v3 * radius;
-            Vector3 mid = new Vector3(0, 0, 0);
+            //Vector3 mid = new Vector3(0, 0, 0);
             toDrag.position = rad;
 
 
-            Vector3 offset = rad - mid;
-            Vector3 position = mid + (offset / 2.0f);
-            GameObject cylinder = toDrag.GetChild(0).gameObject;
-            cylinder.transform.position = position;
-            cylinder.transform.up = offset;
+            //Vector3 offset = rad - mid;
+            //Vector3 position = mid + (offset / 2.0f);
+            //GameObject cylinder = toDrag.GetChild(0).gameObject;
+            //cylinder.transform.position = position;
+            //cylinder.transform.up = offset;
         }
         if (Input.GetMouseButtonUp(0) && dragging)
         {

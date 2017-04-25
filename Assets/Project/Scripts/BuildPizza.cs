@@ -1,20 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class BuildPizza : MonoBehaviour
 {
     public GameObject pizzaSlice;
-    public int numOfPoints = 18;
-    public Text pizzaAreaText;
+    public int numOfPoints = 90;
 
     private Mesh mesh;
-
-    float fullPizzaArea = 0.0f;
-    float pizzaArea = 0.0f;
-    float pizzaSliceArea = 0.0f;
 
     float centerX = 0.0f;
     float centerY = 0.0f;
@@ -28,10 +22,6 @@ public class BuildPizza : MonoBehaviour
         mesh.name = "Pizza";
 
         angleStep = 360.0f / (float)numOfPoints;
-
-        fullPizzaArea = radius * radius * Mathf.PI;
-        pizzaArea = fullPizzaArea;
-        pizzaSliceArea = (angleStep / 360.0f) * radius * radius * Mathf.PI;
     }
     void Start()
     {
@@ -55,13 +45,8 @@ public class BuildPizza : MonoBehaviour
 
             vertexList.Add(quaternion * vertexList[vertexList.Count - 1]);
         }
-
-        //for (int i = 0; i < vertexList.Count; i++)
-        //{
-        //    Debug.Log(i.ToString() + " " + vertexList[i].x.ToString() + " " + vertexList[i].y.ToString() + " " + vertexList[i].z.ToString());
-        //    if (i < triangleList.Count/3)
-        //        Debug.Log(triangleList[i * 3].ToString() + " " + triangleList[i * 3 + 1].ToString() + " " + triangleList[i * 3 + 2].ToString());
-        //}
+        vertexList[vertexList.Count - 1] = vertexList[1];
+        triangleList[(triangleList.Count - 3)] = triangleList[1];
 
         mesh.vertices = vertexList.ToArray();
 
@@ -71,9 +56,7 @@ public class BuildPizza : MonoBehaviour
         Vector2[] uvs = new Vector2[mesh.vertices.Length];
         for (int i = 0; i < uvs.Length; i++)
         {
-            uvs[i] = new Vector2(0.5f + (vertexList[i].x - centerX) / (2 * radius),
-                             0.5f + (vertexList[i].y - centerY) / (2 * radius));
-            //Debug.Log(i.ToString() + " " + uvs[i].ToString());
+            uvs[i] = new Vector2(0.5f + (vertexList[i].x - centerX) / (2 * radius), 0.5f + (vertexList[i].y - centerY) / (2 * radius));
         }
         mesh.uv = uvs;
 
@@ -86,46 +69,45 @@ public class BuildPizza : MonoBehaviour
         col.sharedMesh = mesh;
 
     }
-    void deleteTri(int index, GameObject obj)
-    {
-        Destroy(obj.GetComponent<MeshCollider>());
-        Mesh newMesh = obj.GetComponent<MeshFilter>().mesh;
-        int[] oldTriangles = newMesh.triangles;
-        int[] newTriangles = new int[newMesh.triangles.Length - 3];
-        int i = 0, j = 0;
+    //void deleteTri(int index, GameObject obj)
+    //{
+    //    Destroy(obj.GetComponent<MeshCollider>());
+    //    Mesh newMesh = obj.GetComponent<MeshFilter>().mesh;
+    //    int[] oldTriangles = newMesh.triangles;
+    //    int[] newTriangles = new int[newMesh.triangles.Length - 3];
+    //    int i = 0, j = 0;
 
-        int[] pSliceTr = new int[3];
-        while (j < newMesh.triangles.Length)
-        {
-            if (j != index * 3)
-            {
-                newTriangles[i++] = oldTriangles[j++];
-                newTriangles[i++] = oldTriangles[j++];
-                newTriangles[i++] = oldTriangles[j++];
-            }
-            else
-            {
-                pSliceTr[0] = oldTriangles[j++];
-                pSliceTr[1] = oldTriangles[j++];
-                pSliceTr[2] = oldTriangles[j++];
-            }
-        }
-        GameObject pSlice = Instantiate(pizzaSlice, transform.position, Quaternion.identity);
-        Destroy(pSlice.GetComponent<MeshCollider>());
-        //if (pSlice.GetComponent<MeshFilter>().)
-        pSlice.AddComponent<MeshFilter>();
-        pSlice.GetComponent<MeshFilter>().mesh = obj.GetComponent<MeshFilter>().mesh;
-        pSlice.GetComponent<MeshFilter>().mesh.triangles = pSliceTr;
-        pSlice.AddComponent<Rigidbody2D>();
-        //pSlice.AddComponent<MeshCollider>();
+    //    int[] pSliceTr = new int[3];
+    //    while (j < newMesh.triangles.Length)
+    //    {
+    //        if (j != index * 3)
+    //        {
+    //            newTriangles[i++] = oldTriangles[j++];
+    //            newTriangles[i++] = oldTriangles[j++];
+    //            newTriangles[i++] = oldTriangles[j++];
+    //        }
+    //        else
+    //        {
+    //            pSliceTr[0] = oldTriangles[j++];
+    //            pSliceTr[1] = oldTriangles[j++];
+    //            pSliceTr[2] = oldTriangles[j++];
+    //        }
+    //    }
+    //    GameObject pSlice = Instantiate(pizzaSlice, transform.position, Quaternion.identity);
+    //    Destroy(pSlice.GetComponent<MeshCollider>());
 
-        pizzaArea -= pizzaSliceArea;
-        pizzaAreaText.text = "Pizza area: " + Mathf.Round(pizzaArea / fullPizzaArea * 100).ToString() + "%";
+    //    pSlice.AddComponent<MeshFilter>();
+    //    pSlice.GetComponent<MeshFilter>().mesh = obj.GetComponent<MeshFilter>().mesh;
+    //    pSlice.GetComponent<MeshFilter>().mesh.triangles = pSliceTr;
+    //    pSlice.AddComponent<Rigidbody2D>();
 
-        obj.GetComponent<MeshFilter>().mesh.triangles = newTriangles;
-        obj.AddComponent<MeshCollider>();
+    //    //pizzaArea -= pizzaSliceArea;
+    //   // pizzaAreaText.text = "Pizza area: " + Mathf.Round(pizzaArea / fullPizzaArea * 100).ToString() + "%";
 
-    }
+    //    obj.GetComponent<MeshFilter>().mesh.triangles = newTriangles;
+    //    obj.AddComponent<MeshCollider>();
+
+    //}
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -137,7 +119,7 @@ public class BuildPizza : MonoBehaviour
                 if (hit.transform.tag == "Pizza")
                 {
                     Debug.Log(hit.triangleIndex);
-                    deleteTri(hit.triangleIndex, hit.transform.gameObject);
+                    //deleteTri(hit.triangleIndex, hit.transform.gameObject);
                 }
             }
         }
@@ -153,7 +135,7 @@ public class BuildPizza : MonoBehaviour
                 if (hit.transform.tag == "Pizza")
                 {
                     Debug.Log(hit.triangleIndex);
-                    deleteTri(hit.triangleIndex, hit.transform.gameObject);
+                    //deleteTri(hit.triangleIndex, hit.transform.gameObject);
                 }
             }
         }
