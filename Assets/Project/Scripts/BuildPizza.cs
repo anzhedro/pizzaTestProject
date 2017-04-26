@@ -7,7 +7,7 @@ public class BuildPizza : MonoBehaviour
 {
     public GameObject pizzaSlice;
     public int numOfPoints = 90;
-
+    public static float totalPizzaArea;
     private Mesh mesh;
 
     float centerX = 0.0f;
@@ -51,6 +51,19 @@ public class BuildPizza : MonoBehaviour
         mesh.vertices = vertexList.ToArray();
 
         mesh.triangles = triangleList.ToArray();
+
+        float area = 0;
+        for (int i = 0; i < mesh.triangles.Length; i += 3)
+        {
+            float triangleArea = PizzaAreaHandle.calcTriangleArea(vertexList[mesh.triangles[i]], vertexList[mesh.triangles[i + 1]], vertexList[mesh.triangles[i + 2]]);
+            if (!System.Single.IsNaN(triangleArea))
+            {
+                area += triangleArea;
+            }
+            //Debug.Log(vertices[mesh.triangles[i]] + " " + vertices[mesh.triangles[i + 1]] + " " + vertices[mesh.triangles[i + 2]]);
+        }
+        totalPizzaArea = area;
+        //Debug.Log("Total pizza:" + totalPizzaArea);
 
 
         Vector2[] uvs = new Vector2[mesh.vertices.Length];
