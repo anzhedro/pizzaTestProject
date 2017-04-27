@@ -240,11 +240,12 @@ public class CutPizza : MonoBehaviour
     {
         float pizzaArea = ((pArea / fullPizzaArea) * 100);
         float pizzaSliceArea = ((sArea / fullPizzaArea) * 100);
-
-        cutsCount++;
-        pizzaAreaText.text = "Pizza area: " + pizzaArea + "%";
-        pizzaSliceAreaText.text = "Slice area: " + pizzaSliceArea + "%";
-        cutsCountText.text = "Cuts count: " + cutsCount;
+        if (sArea > 0.00001f) {
+            cutsCount++;
+            pizzaAreaText.text = "Pizza area: " + pizzaArea + "%";
+            pizzaSliceAreaText.text = "Slice area: " + pizzaSliceArea + "%";
+            cutsCountText.text = "Cuts count: " + cutsCount;
+        }
     }
 
     float calcPolygonArea(Vector3[] points)
