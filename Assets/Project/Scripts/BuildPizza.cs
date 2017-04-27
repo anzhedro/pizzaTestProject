@@ -7,7 +7,7 @@ public class BuildPizza : MonoBehaviour
 {
     public GameObject pizzaSlice;
     public int numOfPoints = 90;
-    public static float totalPizzaArea;
+    //public static float totalPizzaArea;
     private Mesh mesh;
 
     float centerX = 0.0f;
@@ -28,7 +28,7 @@ public class BuildPizza : MonoBehaviour
         List<Vector3> vertexList = new List<Vector3>();
         List<int> triangleList = new List<int>();
         Quaternion quaternion = Quaternion.Euler(0.0f, 0.0f, angleStep);
-        
+
         // Make first triangle.
         vertexList.Add(new Vector3(centerX, centerY, centerZ));  // 1. Circle center.
         vertexList.Add(new Vector3(0.0f, radius, 0.0f));         // 2. First vertex on circle outline
@@ -39,7 +39,7 @@ public class BuildPizza : MonoBehaviour
         triangleList.Add(0);
         for (int i = 0; i < numOfPoints - 1; i++)
         {
-            triangleList.Add(vertexList.Count);                      
+            triangleList.Add(vertexList.Count);
             triangleList.Add(vertexList.Count - 1);
             triangleList.Add(0);                            // Index of circle center.
 
@@ -52,17 +52,7 @@ public class BuildPizza : MonoBehaviour
 
         mesh.triangles = triangleList.ToArray();
 
-        float area = 0;
-        for (int i = 0; i < mesh.triangles.Length; i += 3)
-        {
-            float triangleArea = PizzaAreaHandle.calcTriangleArea(vertexList[mesh.triangles[i]], vertexList[mesh.triangles[i + 1]], vertexList[mesh.triangles[i + 2]]);
-            if (!System.Single.IsNaN(triangleArea))
-            {
-                area += triangleArea;
-            }
-            //Debug.Log(vertices[mesh.triangles[i]] + " " + vertices[mesh.triangles[i + 1]] + " " + vertices[mesh.triangles[i + 2]]);
-        }
-        totalPizzaArea = area;
+        //totalPizzaArea = PizzaAreaHandle.calcMeshArea(mesh);
         //Debug.Log("Total pizza:" + totalPizzaArea);
 
 
