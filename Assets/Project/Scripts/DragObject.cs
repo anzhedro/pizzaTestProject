@@ -22,6 +22,7 @@ public class DragObject : MonoBehaviour
             Vector3 pos = Input.mousePosition;
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(pos);
+
             if (Physics.Raycast(ray, out hit) && (hit.collider.tag == "Draggable"))
             {
                 dist = hit.transform.position.z - Camera.main.transform.position.z;
@@ -55,11 +56,9 @@ public class DragObject : MonoBehaviour
 
         if (touch.phase == TouchPhase.Began)
         {
-            Debug.Log("B");
             Vector3 position = touch.position;
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(position);
-
 
             if (Physics.Raycast(ray, out hit) && (hit.collider.tag == "Draggable"))
             {
