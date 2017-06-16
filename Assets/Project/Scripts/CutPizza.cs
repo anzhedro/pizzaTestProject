@@ -18,7 +18,7 @@ public class CutPizza : MonoBehaviour
     public Text cutsCountText;
 
     float fullPizzaArea = 0.0f, cutsCount = 0.0f;
-    public void doSomething()
+    public void doCut()
     {
         Mesh mesh = pizza.GetComponent<MeshFilter>().mesh;
 
@@ -159,16 +159,16 @@ public class CutPizza : MonoBehaviour
 
             if (firstPartArea > secondPartArea)
             {
-                BuildSlice(newSliceMesh);
-                UpdatePizzaMesh(newMesh);
+                buildSlice(newSliceMesh);
+                updatePizzaMesh(newMesh);
                 Debug.Log("Pizza area:" + firstPartArea);
                 Debug.Log("Slice area:" + secondPartArea);
                 updateArea(firstPartArea, secondPartArea);
             }
             else
             {
-                BuildSlice(newMesh);
-                UpdatePizzaMesh(newSliceMesh);
+                buildSlice(newMesh);
+                updatePizzaMesh(newSliceMesh);
                 Debug.Log("Pizza area:" + secondPartArea);
                 Debug.Log("Slice area:" + firstPartArea);
                 updateArea(secondPartArea, firstPartArea);
@@ -221,7 +221,7 @@ public class CutPizza : MonoBehaviour
         return uvs;
     }
 
-    void BuildSlice(Mesh sliceMesh)
+    void buildSlice(Mesh sliceMesh)
     {
         GameObject pSlice = Instantiate(pizzaSlice, pizza.transform.position, Quaternion.identity);
         Destroy(pSlice.GetComponent<MeshCollider>());
@@ -230,7 +230,7 @@ public class CutPizza : MonoBehaviour
         pSlice.AddComponent<Rigidbody2D>();
     }
 
-    void UpdatePizzaMesh(Mesh newMesh)
+    void updatePizzaMesh(Mesh newMesh)
     {
         pizza.GetComponent<MeshFilter>().mesh = newMesh;
         pizza.GetComponent<MeshCollider>().sharedMesh = newMesh;

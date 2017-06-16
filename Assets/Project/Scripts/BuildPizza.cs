@@ -7,7 +7,6 @@ public class BuildPizza : MonoBehaviour
 {
     public GameObject pizzaSlice;
     public int numOfPoints = 90;
-    //public static float totalPizzaArea;
     private Mesh mesh;
 
     float centerX = 0.0f;
@@ -52,10 +51,6 @@ public class BuildPizza : MonoBehaviour
 
         mesh.triangles = triangleList.ToArray();
 
-        //totalPizzaArea = PizzaAreaHandle.calcMeshArea(mesh);
-        //Debug.Log("Total pizza:" + totalPizzaArea);
-
-
         Vector2[] uvs = new Vector2[mesh.vertices.Length];
         for (int i = 0; i < uvs.Length; i++)
         {
@@ -72,45 +67,7 @@ public class BuildPizza : MonoBehaviour
         col.sharedMesh = mesh;
 
     }
-    //void deleteTri(int index, GameObject obj)
-    //{
-    //    Destroy(obj.GetComponent<MeshCollider>());
-    //    Mesh newMesh = obj.GetComponent<MeshFilter>().mesh;
-    //    int[] oldTriangles = newMesh.triangles;
-    //    int[] newTriangles = new int[newMesh.triangles.Length - 3];
-    //    int i = 0, j = 0;
-
-    //    int[] pSliceTr = new int[3];
-    //    while (j < newMesh.triangles.Length)
-    //    {
-    //        if (j != index * 3)
-    //        {
-    //            newTriangles[i++] = oldTriangles[j++];
-    //            newTriangles[i++] = oldTriangles[j++];
-    //            newTriangles[i++] = oldTriangles[j++];
-    //        }
-    //        else
-    //        {
-    //            pSliceTr[0] = oldTriangles[j++];
-    //            pSliceTr[1] = oldTriangles[j++];
-    //            pSliceTr[2] = oldTriangles[j++];
-    //        }
-    //    }
-    //    GameObject pSlice = Instantiate(pizzaSlice, transform.position, Quaternion.identity);
-    //    Destroy(pSlice.GetComponent<MeshCollider>());
-
-    //    pSlice.AddComponent<MeshFilter>();
-    //    pSlice.GetComponent<MeshFilter>().mesh = obj.GetComponent<MeshFilter>().mesh;
-    //    pSlice.GetComponent<MeshFilter>().mesh.triangles = pSliceTr;
-    //    pSlice.AddComponent<Rigidbody2D>();
-
-    //    //pizzaArea -= pizzaSliceArea;
-    //   // pizzaAreaText.text = "Pizza area: " + Mathf.Round(pizzaArea / fullPizzaArea * 100).ToString() + "%";
-
-    //    obj.GetComponent<MeshFilter>().mesh.triangles = newTriangles;
-    //    obj.AddComponent<MeshCollider>();
-
-    //}
+   
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -122,7 +79,6 @@ public class BuildPizza : MonoBehaviour
                 if (hit.transform.tag == "Pizza")
                 {
                     Debug.Log(hit.triangleIndex);
-                    //deleteTri(hit.triangleIndex, hit.transform.gameObject);
                 }
             }
         }
@@ -138,7 +94,6 @@ public class BuildPizza : MonoBehaviour
                 if (hit.transform.tag == "Pizza")
                 {
                     Debug.Log(hit.triangleIndex);
-                    //deleteTri(hit.triangleIndex, hit.transform.gameObject);
                 }
             }
         }
